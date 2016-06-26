@@ -1,5 +1,5 @@
 <?php 
-namespace Kaankilic\InstaPack;
+namespace Kaankilic\InstaPack\Providers;
 use Illuminate\Support\ServiceProvider;
 class InstaPackServiceProvider extends ServiceProvider {
   protected $defer = false;
@@ -9,10 +9,9 @@ class InstaPackServiceProvider extends ServiceProvider {
      *
      * @return void
     */
-  public function boot(){
-    $this->app['PortableInvoice'] = $this->app->share(function($app){
-      return new Invoice('A4','$',$this->app->getLocale());
-    });
+  public function boot(\Illuminate\Routing\Router $router){
+        $router->middleware('instaPack', 'Kaankilic\InstaPack\Http\Middleware\InstaMiddleware');
+        $router->middlewareGroup('web',['Kaankilic\InstaPack\Http\Middleware\SetupHandler']);
   }
  
   /**
@@ -21,7 +20,15 @@ class InstaPackServiceProvider extends ServiceProvider {
     * @return void
   */
   public function register(){
-    return array('PortableInvoice');
+    $this->registerInstaPack();
+    $this->registerForcer();
+  }
+  public function registerInstaPack(){
+    include __DIR__ . '/../Http/routes.php';
+    $this->loadViewsFrom(__DIR__.'/../Views/', 'instapack');
+  }
+  public function registerForcer(){
+    //dd($this->app('router')->middlewareGroups());
   }
  
 }
