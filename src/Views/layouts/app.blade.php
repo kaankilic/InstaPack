@@ -15,9 +15,39 @@
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		<style>
+		body{
+			background-color:#DA4453;
+		}
+		.form-danger{
+			border:1px solid #DA4453;
+		}
+			h1{
+				font-size:21px;
+				margin-top:50px;
+				color:#FFF;
+			}
+			.lead {
+			    font-size: 18px;
+			}
+			.panel{
+				max-width: 640px;
+				margin:0px auto;
+				padding:20px;
+				border:1px solid #F7F7F7;
+			}
+			.installed{
+				font-weight: bold;
+				color:green;
+			}
+			.not-installed{
+				font-weight: bold;
+				color:red;
+			}
+		</style>
 	</head>
 	<body>
-		<h1 class="text-center">Hello World</h1>
+		<h1 class="text-center">Cup Invoice v2.1 - Installer</h1>
 		@yield('content')
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery.js"></script>

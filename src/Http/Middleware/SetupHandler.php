@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use Closure;
 use File;
+use Storage;
 class SetupHandler{
 	/**
      * Handle an incoming request.
@@ -17,7 +18,7 @@ class SetupHandler{
         /*if (Route::getCurrentRoute()) {
             # code...
         }*/
-        if (!file_exists(storage_path().'/app/install.json')) {
+        if (!Storage::disk('local')->exists('instapack.json')) {
             return redirect()->route("instapack::home");
         }
         return $next($request);

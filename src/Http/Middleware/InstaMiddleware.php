@@ -2,6 +2,7 @@
 namespace Kaankilic\InstaPack\Http\Middleware;
 
 use Closure;
+use Storage;
 class InstaMiddleware{
 	/**
      * Handle an incoming request.
@@ -12,7 +13,7 @@ class InstaMiddleware{
      */
     public function handle($request, Closure $next)
     {
-        if (file_exists(storage_path().'/app/install.json')) {
+        if (Storage::disk('local')->exists('instapack.json')) {
             app()->abort(404);
         }
         return $next($request);

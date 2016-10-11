@@ -8,7 +8,7 @@ Route::group(['prefix'=>'setup','as'=>'instapack::','namespace'=>'Kaankilic\Inst
 	Route::post("/mail",['as'=>'post.mail','uses'=>'InstallerController@postMail']);
 
 	Route::get("/user",['as'=>'user','uses'=>'InstallerController@getUser']);
-	Route::post("/user",['as'=>'post.user','uses'=>'InstallerController@postUser']);
+	Route::post("/user",['as'=>'post.user','uses'=>'InstapackUsersController@postUser']);
 
 });
 ?>

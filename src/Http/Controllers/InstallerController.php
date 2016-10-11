@@ -3,10 +3,16 @@ namespace Kaankilic\InstaPack\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;
 use Validator;
+use Hash;
+use Session;
+use Request;
 use Storage;
+use Kaankilic\InstaPack\Helpers\ExtensionChecker;
+use Kaankilic\InstaPack\Helpers\FilePermissionChecker;
 class InstallerController extends Controller{
 	public function getHome(){
-		return view("instapack::installer.home");
+		$Extensions = ExtensionChecker::checkExtensions(config('instapack.Extensions'));
+		return view("instapack::installer.home",compact('Extensions'));
 	}
 	public function getConnections(){
 		return view("instapack::installer.connections");
@@ -16,13 +22,15 @@ class InstallerController extends Controller{
 		$Validator = Validator::make($Inputs,[
 			"Hostname" => "required",
 			"Username" => "required",
+			"Password" => "required",
 			"Database" => "required"
 		]);
-		if ($Validator->fails()) {
-			return redirect()->route("instapack::connections")->withInput()->withErros($Validator)->with("Errormessage","test");
+		$hasConnection = @mysqli_connect($Inputs["Hostname"],$Inputs["Username"],$Inputs["Password"],$Inputs["Database"]);
+		if ($Validator->fails() || $hasConnection==FALSE) {
+			return redirect()->route("instapack::connections")->withInput()->withErrors($Validator)->with("Errormessage","test");
 		}
+		Storage::disk("local")->put('instapack-connections.json', json_encode($Inputs));
 		return redirect()->route("instapack::mail");
-		dd(true);
 	}
 	public function getMail(){
 		return view("instapack::installer.mail");
@@ -35,25 +43,14 @@ class InstallerController extends Controller{
 			"Email" => "required"
 		]);
 		if ($Validator->fails()) {
-			return redirect()->route("instapack::mail")->withInput()->withErros($Validator)->with("Errormessage","test");
+			return redirect()->route("instapack::mail")->withInput()->withErrors($Validator)->with("Errormessage","test");
 		}
+		/* Smtp Test et */
+		Storage::disk("local")->put('instapack-emails.json', json_encode($Inputs));
 		return redirect()->route("instapack::user");
 	}
 	public function getUser(){
 		return view("instapack::installer.user");
-	}
-	public function postUser(){
-		$Inputs = Input::only("Username","Password");
-		$Validator = Validator::make($Inputs,[
-			"Username" => "required",
-			"Password" => "required"
-		]);
-		if ($Validator->fails()) {
-			return redirect()->route("instapack::user")->withInput()->withErros($Validator)->with("Errormessage","test");
-		}
-		$Data = array("Result"=>str_random(40));
-		Storage::disk("local")->put('install.json', $Data);
-		return redirect("/");
 	}
 }
 ?>
