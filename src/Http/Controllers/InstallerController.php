@@ -3,6 +3,7 @@ namespace Kaankilic\InstaPack\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;
 use Validator;
+use Storage;
 use Hash;
 use Session;
 use Request;
