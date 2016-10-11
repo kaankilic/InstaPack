@@ -2,22 +2,12 @@
 namespace Kaankilic\InstaPack\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Input;
-<<<<<<< HEAD
-use Validator;
-use Hash;
-use Session;
-use Request;
-use Storage;
-use Kaankilic\InstaPack\Helpers\ExtensionChecker;
-use Kaankilic\InstaPack\Helpers\FilePermissionChecker;
-=======
 use Hash;
 use Session;
 use Request;
 use Kaankilic\InstaPack\Helpers\ExtensionChecker;
 use Kaankilic\InstaPack\Helpers\FilePermissionChecker;
 use Kaankilic\InstaPack\Helpers\DotEnvGen;
->>>>>>> origin/master
 class InstallerController extends Controller{
 	public function getHome(){
 		$Extensions = ExtensionChecker::checkExtensions(config('instapack.Extensions'));
