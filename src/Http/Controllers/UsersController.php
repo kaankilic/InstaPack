@@ -6,6 +6,7 @@ use App\Models\Companies;
 use App\Models\Users;
 use Validator;
 use Storage;
+use Request;
 use Kaankilic\InstaPack\Helpers\DotEnvGen;
 use Artisan;
 use Hash;
